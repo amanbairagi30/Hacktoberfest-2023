@@ -1,111 +1,46 @@
-import React, { useRef, useState } from "react";
-import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
-import { styles } from "../styles";
-import { slideIn } from "../utils/motion";
+// import data from "../constants/index"
+import { testimonials } from "../constants/index"
 
-const Feedback = () => {
-  const formRef = useRef();
-  const [form, setForm] = useState({
-    username: "",
-    feedback: "",
-  });
-
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    const { target } = e;
-    const { name, value } = target;
-
-    setForm({
-      ...form,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    emailjs
-      .send(
-        'YOUR_EMAILJS_SERVICE_ID',
-        'YOUR_EMAILJS_TEMPLATE_ID',
-        {
-          from_name: form.username,
-          to_name: "Your Name", // Replace with the recipient's name or email
-          message: form.feedback,
-        },
-        'YOUR_EMAILJS_USER_ID'
-      )
-      .then(
-        () => {
-          setLoading(false);
-          alert("Thank you for your feedback!");
-
-          setForm({
-            username: "",
-            feedback: "",
-          });
-        },
-        (error) => {
-          setLoading(false);
-          console.error(error);
-
-          alert("Oops, something went wrong. Please try again.");
-        }
-      );
-  };
-
+const Feedbacks = () => {
   return (
-    <div className={`xl:mt-6 flex xl:flex-row flex-col-reverse gap-6 overflow-hidden`}>
-      <motion.div
-        variants={slideIn("left", "tween", 0.2, 1)}
-        className='flex-[0.5] bg-black-100 p-6 rounded-2xl'
-      >
-        <p className={styles.sectionSubText}>Leave Feedback</p>
-        <h3 className={styles.sectionHeadText}>Feedback.</h3>
+    <div className=" flex sm:px-16 px-6 sm:py-16 py-10 max-w-7xl mx-auto relative z-0">
+      <div className=" mx-auto w-[100%]">
+        <div className="title">
+          <h1 className="text-white font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px]">Feedbacks.</h1>
+        </div>
 
-        <form
-          ref={formRef}
-          onSubmit={handleSubmit}
-          className='mt-4 flex flex-col gap-4'
-        >
-          <label className='flex flex-col'>
-            <span className='text-white font-medium mb-2'>Your Username</span>
-            <input
-              type='text'
-              name='username'
-              value={form.username}
-              onChange={handleChange}
-              placeholder='Enter your username'
-              className='bg-tertiary py-2 px-4 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
-            />
-          </label>
-          <label className='flex flex-col'>
-            <span className='text-white font-medium mb-2'>Your Feedback</span>
-            <textarea
-              rows={4} // Adjust the number of rows here to make it smaller
-              name='feedback'
-              value={form.feedback}
-              onChange={handleChange}
-              placeholder='Enter your feedback here'
-              className='bg-tertiary py-2 px-4 placeholder:text-secondary text-white rounded-lg outline-none border-none font-medium'
-            />
-          </label>
+        {/* testimonials */}
+        <div className="testimonial-box md:grid-cols-3 grid-cols-1 p-4">
+          {testimonials.map((item, index) => {
+            return (
 
-          <button
-            type='submit'
-            className='bg-tertiary py-3 px-8 rounded-xl outline-none w-fit text-white font-bold shadow-md shadow-primary'
-          >
-            {loading ? "Sending..." : "Send Feedback"}
-          </button>
-        </form>
-      </motion.div>
+                <div className=" ">
+                  <div  className="animate hover:transition-all hover:duration-300 flex flex-col items-center bg-tertiary rounded-lg p-4 m-4 border">
+                    <div className="rounded-full"><img src={item.image} className="object-contain rounded-full w-[5rem]" alt="" /></div>
 
-      {/* ... (right-side content, e.g., EarthCanvas) */}
+                    {/* details */}
+                    <div className="flex my-4  w-full py-2 flex-col items-center">
+                      <span className="text-[24px] font-semibold">{item.name}</span>
+                      <span className="text-[] text-secondary">{item.designation}</span>
+                      <span className="text-[] text-secondary">{item.company}</span>
+                    </div>
+
+                    <div className="text-center">
+                      " {item.testimonial} "
+                    </div>
+
+                  </div>
+                </div>
+
+            )
+          })}
+        </div>
+      </div>
     </div>
-  );
-};
 
-export default Feedback;
+  )
+}
+
+
+
+export default Feedbacks
