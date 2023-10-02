@@ -1,4 +1,3 @@
-// import data from "../constants/index"
 import { testimonials } from "../constants/index"
 
 const Feedbacks = () => {
